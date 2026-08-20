@@ -47,6 +47,10 @@ class OpenRouterClient:
             "messages": messages,
         }
 
+    def independent_client(self) -> "OpenRouterClient":
+        """Создаёт клиент с отдельной HTTP-сессией для параллельного вызова."""
+        return OpenRouterClient(self.config, api_key=self.api_key)
+
     def evaluate(self, messages: list[dict[str, Any]]) -> NetworkResult:
         if not self.api_key:
             raise OpenRouterError("Добавьте OPENROUTER_API_KEY в src/.env перед реальным запуском.")

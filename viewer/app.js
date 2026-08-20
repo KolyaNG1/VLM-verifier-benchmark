@@ -13,7 +13,7 @@ function metric(label, value) { return `<div class="metric"><b>${escapeHtml(valu
 function showSummary(run) {
   const summary = run.summary || {};
   $("#run-summary").innerHTML = [
-    metric("модель", run.config?.model), metric("состояние", run.status), metric("пар", summary.pairs),
+    metric("название", run.display_name || run.run_id), metric("модель", run.config?.model), metric("состояние", run.status), metric("пар", summary.pairs),
     metric("завершено", summary.complete), metric("частично", summary.partial), metric("ошибок", summary.failed),
     metric("вызовов", summary.calls), metric("стоимость, USD", Number(summary.cost_usd || 0).toFixed(5)),
   ].join("");
@@ -86,7 +86,7 @@ async function init() {
     const select = $("#run-select"); select.innerHTML = "";
     if (!runs.length) { select.innerHTML = "<option>Запусков пока нет</option>"; return; }
     for (const run of runs) {
-      const option = document.createElement("option"); option.value = run.run_id; option.textContent = `${run.run_id} · ${run.status}`; select.append(option);
+      const option = document.createElement("option"); option.value = run.run_id; option.textContent = `${run.display_name || run.run_id} · ${run.status}`; select.append(option);
     }
     select.onchange = () => loadRun(select.value).catch(showError);
     $("#pair-filter").oninput = renderList; $("#status-filter").onchange = renderList;

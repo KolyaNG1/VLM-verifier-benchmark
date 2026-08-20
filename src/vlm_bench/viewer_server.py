@@ -59,7 +59,7 @@ class ViewerHandler(BaseHTTPRequestHandler):
         for run_path in sorted(self.runs_root.glob("*/run.json"), reverse=True):
             try:
                 run = _json(run_path)
-                records.append({"run_id": run.get("run_id"), "status": run.get("status"), "created_at": run.get("created_at"), "model": run.get("config", {}).get("model"), "summary": run.get("summary", {})})
+                records.append({"run_id": run.get("run_id"), "display_name": run.get("display_name") or run.get("run_id"), "status": run.get("status"), "created_at": run.get("created_at"), "model": run.get("config", {}).get("model"), "summary": run.get("summary", {})})
             except (OSError, json.JSONDecodeError):
                 continue
         return records

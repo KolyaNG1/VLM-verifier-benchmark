@@ -79,15 +79,15 @@ python -m vlm_bench viewer --port 8081
 ## Реальные запуски
 
 Перед первым сетевым запуском убедитесь, что команда `render-prompt` показывает
-нужный текст и картинку. Каждая пара создаёт два независимых запроса: `orig`,
-затем `fail`.
+нужный текст и картинку. Каждая пара создаёт два независимых параллельных
+запроса: `orig` и `fail`; их контексты не смешиваются.
 
 ```powershell
 # Один заранее подготовленный реальный тест. Флаг --live обязателен.
 python tests\manual_openrouter_one_pair.py --live
 
-# Первые 10 пар с начальной моделью z-ai/glm-4.6v.
-python -m vlm_bench run --limit 10
+# Первые 10 пар с понятным названием запуска.
+python -m vlm_bench run --limit 10 --name "Базовый промпт — первые 10"
 
 # Точные пары в порядке пользователя.
 python -m vlm_bench run --id document_1/figure_2 --id document_5/figure_3
@@ -96,8 +96,15 @@ python -m vlm_bench run --id document_1/figure_2 --id document_5/figure_3
 python -m vlm_bench run --ids-file batch.txt
 
 # Выбор по пути к одной из двух картинок пары.
-python -m vlm_bench run --image-path data\data\verifier_v0\figures\ml_l2_fail\document_1\figure_2.png
+python -m vlm_bench run --image-path data\data\verifier_v0\figures\ml_l2_fail\document_1\figure_2.png --name "Проверка Figure 2"
 ```
+
+По умолчанию один вызов может сгенерировать до 16 384 выходных токенов: этого
+достаточно и для рассуждения, и для JSON-аудита. При необходимости параметр
+можно изменить явно, например `--max-tokens 24000`.
+
+Обычный запуск не имеет денежного предела по умолчанию. Если нужен контролируемый
+предел расходов, задайте его явно: `--max-cost-usd 5`.
 
 Реальный ручной тест использует одну пару `document_1/figure_2`, создаёт два
 запроса и устанавливает предел стоимости 1 USD. Он не запускается обычными
@@ -109,6 +116,9 @@ python -m vlm_bench run --image-path data\data\verifier_v0\figures\ml_l2_fail\do
 ```powershell
 python -m vlm_bench resume runs\<имя_запуска>
 ```
+
+Просмотрщик показывает название из `--name` в списке запусков. Старые запуски,
+у которых названия нет, отображаются по техническому идентификатору каталога.
 
 ## Проверки разработчика
 

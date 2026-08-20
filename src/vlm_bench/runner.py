@@ -1,7 +1,8 @@
-"""Последовательный исполнитель независимых вызовов orig → fail."""
+"""Параллельный исполнитель независимых вызовов orig и fail внутри пары."""
 
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -31,7 +32,14 @@ class BenchmarkRunner:
             "messages": safe_messages(self.template, pair, image, PROJECT_ROOT),
         }
 
-    def _side(self, store: ArtifactStore, pair: DatasetPair, side: str, dry_run: bool) -> dict[str, Any]:
+    def _side(
+        self,
+        store: ArtifactStore,
+        pair: DatasetPair,
+        side: str,
+        dry_run: bool,
+        client: OpenRouterClient | Any | None = None,
+    ) -> dict[str, Any]:
         previous = store.read_result(pair.pair_id, side)
         if previous and previous.get("status") == "success":
             return previous
@@ -40,18 +48,21 @@ class BenchmarkRunner:
             result = {"status": "dry_run", "side": side, "provider_reasoning": None, "provider_metadata": {}, "computed": None}
             store.write_call(pair.pair_id, side, request, result)
             return result
-        if store.total_cost() >= self.config.max_cost_usd:
+        if self.config.max_cost_usd is not None and store.total_cost() >= self.config.max_cost_usd:
             result = {"status": "budget_exhausted", "side": side, "provider_reasoning": None, "provider_metadata": {}, "computed": None}
             store.write_call(pair.pair_id, side, request, result)
             return result
-        if self.client is None:
+        client = client or self.client
+        if client is None:
             raise RuntimeError("Для реального запуска нужен OpenRouterClient")
 
         image = pair.orig_pic if side == "orig" else pair.fail_pic
         messages = build_messages(self.template, pair, image)
         validation_errors: list[str] = []
+        attempt_cost_usd = 0.0
         for model_attempt in range(1, self.config.invalid_response_attempts + 1):
-            network = self.client.evaluate(messages)
+            network = client.evaluate(messages)
+            attempt_cost_usd += self._raw_cost(network.raw)
             store.write_attempt_response(pair.pair_id, side, model_attempt, network.raw)
             if not network.ok:
                 result = {
@@ -61,6 +72,7 @@ class BenchmarkRunner:
                     "provider_metadata": {"usage": network.raw.get("usage", {}), "network_error": network.error},
                     "validation_errors": validation_errors,
                     "computed": None,
+                    "cost_usd": attempt_cost_usd,
                 }
                 store.write_call(pair.pair_id, side, request, result)
                 return result
@@ -75,9 +87,10 @@ class BenchmarkRunner:
                     "status": "invalid_response",
                     "side": side,
                     "provider_reasoning": None,
-                    "provider_metadata": network.raw.get("usage", {}),
+                    "provider_metadata": {"usage": network.raw.get("usage", {})},
                     "validation_errors": validation_errors,
                     "computed": None,
+                    "cost_usd": attempt_cost_usd,
                 }
                 store.write_call(pair.pair_id, side, request, result)
                 return result
@@ -87,13 +100,21 @@ class BenchmarkRunner:
                 "provider_reasoning": reasoning,
                 "provider_metadata": metadata,
                 "validation_errors": validation_errors,
+                "cost_usd": attempt_cost_usd,
             }
             store.write_call(pair.pair_id, side, request, result)
             return result
         raise AssertionError("Цикл ответов должен завершиться возвратом")
 
     @staticmethod
-    def _cost(result: dict[str, Any]) -> float:
+    def _raw_cost(raw: dict[str, Any]) -> float:
+        usage = raw.get("usage") or {}
+        return float(usage.get("cost") or 0.0) if isinstance(usage, dict) else 0.0
+
+    @classmethod
+    def _cost(cls, result: dict[str, Any]) -> float:
+        if result.get("cost_usd") is not None:
+            return float(result["cost_usd"])
         metadata = result.get("provider_metadata") or {}
         usage = metadata.get("usage") or {}
         return float(usage.get("cost") or 0.0) if isinstance(usage, dict) else 0.0
@@ -126,14 +147,26 @@ class BenchmarkRunner:
     def _pair_directory(pair: DatasetPair) -> str:
         return pair.pair_id.replace("/", "__")
 
+    def _independent_client(self) -> OpenRouterClient | Any | None:
+        if isinstance(self.client, OpenRouterClient):
+            return self.client.independent_client()
+        return self.client
+
     def run_pairs(self, store: ArtifactStore, pairs: list[DatasetPair], *, dry_run: bool = False) -> ArtifactStore:
         for pair in pairs:
-            orig = self._side(store, pair, "orig", dry_run)
-            fail = self._side(store, pair, "fail", dry_run)
+            with ThreadPoolExecutor(max_workers=2, thread_name_prefix="vlm-side") as executor:
+                orig_future = executor.submit(self._side, store, pair, "orig", dry_run, self._independent_client())
+                fail_future = executor.submit(self._side, store, pair, "fail", dry_run, self._independent_client())
+                orig = orig_future.result()
+                fail = fail_future.result()
             record = self._index_record(pair, orig, fail)
             store.update_pair(pair.pair_id, run_status=record["status"], comparison=record["comparison"])
             store.upsert_index(record)
             store.refresh_summary()
-        final_status = "dry_run" if dry_run else "complete"
+        if dry_run:
+            final_status = "dry_run"
+        else:
+            summary = store.read_run()["summary"]
+            final_status = "failed" if summary["failed"] else "partial" if summary["partial"] else "complete"
         store.refresh_summary(status=final_status)
         return store

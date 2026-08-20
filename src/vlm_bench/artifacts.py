@@ -7,7 +7,6 @@ import os
 import re
 import shutil
 import tempfile
-from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -45,7 +44,20 @@ def read_json(path: Path) -> dict[str, Any]:
 
 
 def _slug(value: str) -> str:
-    return re.sub(r"[^A-Za-z0-9._-]+", "_", value).strip("_") or "run"
+    return re.sub(r"[^\w.-]+", "_", value, flags=re.UNICODE).strip("_") or "run"
+
+
+def _display_name(value: str | None, *, config: BenchmarkConfig, template: PromptTemplate) -> str:
+    if value is None:
+        return f"{template.path.stem} · {config.model}"
+    name = value.strip()
+    if not name:
+        raise ValueError("Название запуска не может быть пустым")
+    if len(name) > 120:
+        raise ValueError("Название запуска не должно быть длиннее 120 символов")
+    if any(ord(character) < 32 for character in name):
+        raise ValueError("Название запуска содержит недопустимый управляющий символ")
+    return name
 
 
 def pair_directory_name(pair_id: str) -> str:
@@ -93,10 +105,12 @@ class ArtifactStore:
         template: PromptTemplate,
         config: BenchmarkConfig,
         runs_root: Path = DEFAULT_RUNS_ROOT,
+        display_name: str | None = None,
     ) -> "ArtifactStore":
         runs_root = runs_root.resolve()
         timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
-        run_id = f"{timestamp}__{_slug(config.model)}__{_slug(template.path.stem)}__{template.sha256[:8]}"
+        display_name = _display_name(display_name, config=config, template=template)
+        run_id = f"{timestamp}__{_slug(display_name)}__{_slug(config.model)}__{template.sha256[:8]}"
         run_dir = runs_root / run_id
         suffix = 1
         while run_dir.exists():
@@ -109,6 +123,7 @@ class ArtifactStore:
         shutil.copy2(template.path, prompt_dir / template.path.name)
         manifest = {
             "run_id": run_dir.name,
+            "display_name": display_name,
             "status": "running",
             "created_at": datetime.now(UTC).isoformat(),
             "updated_at": datetime.now(UTC).isoformat(),

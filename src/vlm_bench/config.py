@@ -21,20 +21,26 @@ class BenchmarkConfig:
     temperature: float = 0.0
     top_p: float = 1.0
     seed: int = 42
-    max_tokens: int = 4096
+    # Рассуждение и итоговый JSON делят один лимит у OpenRouter. 16K оставляет
+    # достаточно места сложной визуальной проверке и структурированному аудиту.
+    max_tokens: int = 16384
     reasoning_effort: str = "medium"
     timeout_seconds: int = 180
     network_attempts: int = 3
     invalid_response_attempts: int = 2
+    # Пары запускаются последовательно; внутри каждой стороны выполняются
+    # параллельно, поэтому этот снимок конфигурации остаётся равным одному.
     workers: int = 1
-    max_cost_usd: float = 5.0
+    # Обычный запуск не имеет денежного потолка. Для контролируемого прогона
+    # пользователь может явно передать --max-cost-usd.
+    max_cost_usd: float | None = None
     faithfulness_mid: float = 0.60
     faithfulness_max: float = 0.80
     weight_faithfulness: float = 0.45
     weight_clarity: float = 0.25
     weight_compactness: float = 0.15
     weight_style: float = 0.15
-    protocol: str = "blind_orig_fail_v1"
+    protocol: str = "blind_orig_fail_parallel_v1"
 
     def as_dict(self) -> dict[str, Any]:
         return asdict(self)

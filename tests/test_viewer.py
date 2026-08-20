@@ -25,7 +25,7 @@ class ViewerTests(unittest.TestCase):
         pair = load_ml_pairs(ROOT / "data")[0]
         template = load_template(ROOT / "prompts" / "vlm_judge" / "v001_baseline.md")
         with tempfile.TemporaryDirectory() as directory:
-            store = ArtifactStore.create([pair], template, BenchmarkConfig(), Path(directory))
+            store = ArtifactStore.create([pair], template, BenchmarkConfig(), Path(directory), display_name="Проверка просмотрщика")
             BenchmarkRunner(BenchmarkConfig(), template).run_pairs(store, [pair], dry_run=True)
             old_root = ViewerHandler.runs_root
             try:
@@ -37,6 +37,7 @@ class ViewerTests(unittest.TestCase):
                 with urlopen(f"{base}/api/runs", timeout=5) as response:
                     runs = json.loads(response.read())
                 self.assertEqual(runs[0]["run_id"], store.run_dir.name)
+                self.assertEqual(runs[0]["display_name"], "Проверка просмотрщика")
                 with urlopen(f"{base}/", timeout=5) as response:
                     html = response.read().decode("utf-8")
                 self.assertIn("Результаты запусков", html)
