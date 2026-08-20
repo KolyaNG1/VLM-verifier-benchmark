@@ -24,7 +24,6 @@ tmp/
 docs/.docs_ctl.lock
 docs/.*.tmp
 
-# набор четвёрок в git не хранится вовсе: архив передаётся отдельно
+# распакованный набор в git не хранится, хранится только архив bench_201.zip
 bench/
 bench_trash/
-bench_*.zip
