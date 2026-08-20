@@ -22,7 +22,7 @@ updated: 2026-08-20
 | [TASK_002](tasks/TASK_002_project_start_scaffold/002_descr.md) — Создание чистого каркаса project_start | Создать готовый к копированию каркас нового проекта без истории и предметных знаний текущего проекта. | `done` | 2026-08-20 |
 | [TASK_003](tasks/TASK_003_issledovanie_struktury_nabora_verifier_v0/003_descr.md) — Исследование структуры набора verifier_v0 | Проверить и задокументировать структуру ML-поднабора verifier_v0 как основу будущего фреймворка данных. | `done` | 2026-08-20 |
 | [TASK_004](tasks/TASK_004_freymvork_eksperimentov_s_vlm/004_descr.md) — Фреймворк экспериментов с VLM | Создать фреймворк парных запусков VLM и утилиту набора для сравнения системных промптов. | `done` | 2026-08-20 |
-| [TASK_005](tasks/TASK_005_publikatsiya_proekta_v_github/005_descr.md) — Публикация проекта в GitHub | Публикация проекта в GitHub | `active` | 2026-08-20 |
+| [TASK_005](tasks/TASK_005_publikatsiya_proekta_v_github/005_descr.md) — Публикация проекта в GitHub | Публикация проекта в GitHub | `done` | 2026-08-20 |
 
 ## Связи задач
 

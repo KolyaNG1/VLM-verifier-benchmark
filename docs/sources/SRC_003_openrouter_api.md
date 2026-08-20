@@ -24,6 +24,7 @@ related_tasks: ["TASK_004"]
 - [Учёт использования](https://openrouter.ai/docs/cookbook/administration/usage-accounting).
 - [Страница GLM-4.6V](https://openrouter.ai/z-ai/glm-4.6v/providers).
 - [Параметры и производительность GLM-4.6V](https://openrouter.ai/z-ai/glm-4.6v/performance).
+- [Страница Qwen3.5 397B A17B](https://openrouter.ai/qwen/qwen3.5-397b-a17b).
 
 ## Содержание
 
@@ -35,6 +36,9 @@ related_tasks: ["TASK_004"]
 Страница модели описывает `max_tokens` как верхнюю границу полного вывода и
 указывает для GLM-4.6V существенно больше 16K токенов; рассуждение и видимый
 ответ делят этот предел.
+Для сравнения Qwen3.5 397B A17B доступна как мультимодальная модель с точным
+идентификатором `qwen/qwen3.5-397b-a17b`; поддерживаются изображения,
+рассуждение, `max_tokens` и `response_format`.
 
 ## Область применимости и ограничения
 
