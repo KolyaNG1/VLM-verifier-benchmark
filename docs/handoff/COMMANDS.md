@@ -106,14 +106,52 @@ python -m vlm_bench resume runs\<имя_запуска>
 
 Все сбалансированы по типу порчи.
 
+## Ансамбль: полный цикл
+
+Рекомендуемая конфигурация — два судьи. Ансамбль не режим раннера, а арифметика
+поверх двух обычных прогонов.
+
+```powershell
+python tools\watch_run.py --ids-file bench_all.txt --model google/gemini-3.7-flash --prompt prompts/vlm_judge/v003_strict.md --pair-workers 10 --max-cost-usd 2.6 --name "v003 полный"
+python tools\watch_run.py --ids-file bench_all.txt --model google/gemini-3.7-flash --prompt prompts/vlm_judge/v013_hypotheses.md --pair-workers 10 --max-cost-usd 2.6 --name "v013 полный"
+python tools\ensemble.py
+```
+
+Около семи минут и $4.2 на оба прогона. `ensemble.py` без аргументов сам найдёт
+каталоги с `v003_` и `v013_` в имени и склеит несколько прогонов на одного судью,
+если набор гонялся частями.
+
+Явное указание каталогов и правила агрегации:
+
+```powershell
+python tools\ensemble.py --judge v003 runs\<сотня> runs\<остаток> --judge v013 runs\<сотня> runs\<остаток> --rule mean
+```
+
+`--rule` принимает `mean` (по умолчанию, 61%), `min` (59%) и `max` (41%).
+
+Если прогон оборвался — кончились деньги, отвалилась сеть, — досчитать
+недостающие пары:
+
+```powershell
+python -m vlm_bench resume runs\<имя_запуска>
+```
+
+Уже посчитанные пары не переспрашиваются.
+
 ## Статистика
 
 ```powershell
-python tools\stat.py runs\<запуск>                  # детекция, разбивка по типам
-python tools\cmp.py                                 # сравнение двух прогонов
-python tools\axis_check.py                          # корреляция осей
-python tools\badrefs.py                             # пары с битым эталоном
-python tools\missed.py                              # формулировки разметки: что ловится, что нет
+python tools\stat.py runs\<запуск>       # детекция одного прогона, разбивка по типам
+python tools\ensemble.py                 # ансамбль и сравнение судей
+python tools\cmp.py                      # сравнение двух прогонов попарно
+python tools\axis_check.py               # корреляция осей faithfulness/clarity/style
+python tools\badrefs.py                  # пары с устойчиво заниженным эталоном
+python tools\missed.py                   # формулировки разметки: что ловится, что нет
+python tools\rulesweep.py                # перебор правил faithfulness без запросов к модели
+python tools\consensus.py                # агрегация на уровне счётчиков P/U/M
+python tools\uagree.py                   # согласие судей в найденных галлюцинациях
+python tools\refloss.py                  # сколько пар потеряно из-за заниженных эталонов
+python tools\forecast.py                 # перенос замеренного прироста на состав остатка
 ```
 
 ## HTML-отчёт
