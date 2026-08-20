@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VLM Benchmark Viewer</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header>
+      <div>
+        <p class="eyebrow">VLM BENCHMARK</p>
+        <h1>Результаты запусков</h1>
+      </div>
+      <label>Запуск <select id="run-select"><option>Загрузка…</option></select></label>
+    </header>
+    <main>
+      <section id="run-summary" class="summary"></section>
+      <section class="workspace">
+        <aside>
+          <label>Фильтр по id <input id="pair-filter" type="search" placeholder="document_1/figure_2"></label>
+          <label>Состояние <select id="status-filter"><option value="">Все</option><option value="complete">complete</option><option value="partial">partial</option><option value="failed">failed</option></select></label>
+          <div id="pair-list" class="pair-list"></div>
+        </aside>
+        <section id="detail" class="detail"><p class="muted">Выберите пару слева.</p></section>
+      </section>
+    </main>
+    <template id="pair-template">
+      <button class="pair-item" type="button"><strong></strong><span></span></button>
+    </template>
+    <script src="/app.js"></script>
+  </body>
+</html>
