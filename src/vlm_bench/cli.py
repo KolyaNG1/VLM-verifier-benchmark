@@ -24,6 +24,7 @@ def _path(value: str) -> Path:
 def _config(args: argparse.Namespace) -> BenchmarkConfig:
     return BenchmarkConfig(
         model=args.model,
+        pair_workers=args.pair_workers,
         temperature=args.temperature,
         top_p=args.top_p,
         seed=args.seed,
@@ -128,6 +129,7 @@ def _add_config(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--timeout", type=int, default=180)
     parser.add_argument("--network-attempts", type=int, default=3)
     parser.add_argument("--invalid-response-attempts", type=int, default=2)
+    parser.add_argument("--pair-workers", type=int, default=1, help="сколько пар считать одновременно")
     parser.add_argument("--max-cost-usd", type=float, help="необязательный предел стоимости запуска в USD")
     parser.add_argument("--faithfulness-mid", type=float, default=0.60)
     parser.add_argument("--faithfulness-max", type=float, default=0.80)

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import threading
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from pathlib import Path
@@ -153,16 +154,29 @@ class BenchmarkRunner:
         return self.client
 
     def run_pairs(self, store: ArtifactStore, pairs: list[DatasetPair], *, dry_run: bool = False) -> ArtifactStore:
-        for pair in pairs:
+        # Общие файлы запуска (index.jsonl, run.json, pair.json) пишутся под замком:
+        # артефакты сторон лежат в отдельных каталогах и в защите не нуждаются.
+        index_lock = threading.Lock()
+
+        def handle(pair: DatasetPair) -> None:
             with ThreadPoolExecutor(max_workers=2, thread_name_prefix="vlm-side") as executor:
                 orig_future = executor.submit(self._side, store, pair, "orig", dry_run, self._independent_client())
                 fail_future = executor.submit(self._side, store, pair, "fail", dry_run, self._independent_client())
                 orig = orig_future.result()
                 fail = fail_future.result()
             record = self._index_record(pair, orig, fail)
-            store.update_pair(pair.pair_id, run_status=record["status"], comparison=record["comparison"])
-            store.upsert_index(record)
-            store.refresh_summary()
+            with index_lock:
+                store.update_pair(pair.pair_id, run_status=record["status"], comparison=record["comparison"])
+                store.upsert_index(record)
+                store.refresh_summary()
+
+        workers = max(1, int(getattr(self.config, "pair_workers", 1) or 1))
+        if workers == 1:
+            for pair in pairs:
+                handle(pair)
+        else:
+            with ThreadPoolExecutor(max_workers=workers, thread_name_prefix="vlm-pair") as pool:
+                list(pool.map(handle, pairs))
         if dry_run:
             final_status = "dry_run"
         else:

@@ -28,6 +28,7 @@ class BenchmarkConfig:
     timeout_seconds: int = 180
     network_attempts: int = 3
     invalid_response_attempts: int = 2
+    pair_workers: int = 1
     # Пары запускаются последовательно; внутри каждой стороны выполняются
     # параллельно, поэтому этот снимок конфигурации остаётся равным одному.
     workers: int = 1
