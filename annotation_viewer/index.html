@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Проверка описаний изображений</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header>
+      <div>
+        <p class="eyebrow">ANNOTATION REVIEW</p>
+        <h1>Проверка описаний</h1>
+        <p class="muted">Описание попадёт рядом с картинкой только после одобрения.</p>
+      </div>
+      <div class="header-controls">
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Переключить тему">Светлая тема</button>
+        <section id="summary" class="summary" aria-label="Статус очереди"></section>
+      </div>
+    </header>
+    <main class="workspace">
+      <section id="detail" class="detail"><p class="muted">Выберите карточку из очереди справа.</p></section>
+      <aside class="queue-panel">
+        <label>Фильтр <input id="filter" type="search" placeholder="document_1 или ожидает проверки"></label>
+        <div id="queue" class="queue" aria-live="polite"></div>
+      </aside>
+    </main>
+    <template id="item-template">
+      <button class="queue-item" type="button"><strong></strong><span></span></button>
+    </template>
+    <script src="/app.js"></script>
+  </body>
+</html>

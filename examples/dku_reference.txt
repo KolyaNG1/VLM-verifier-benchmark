@@ -1,0 +1,11 @@
+1. The diagram shows a bottom-to-top pipeline for classifying and reconstructing a photograph of a child sitting in a car. At the bottom center, the input photograph has an upward arrow into a rounded blue block labeled “Backbone CNN / Transformers”. A green token list to the right of the input image contains “bottle”, “car”, and “person”.
+
+2. An upward arrow carries the output of “Backbone CNN / Transformers” into a long horizontal blue block labeled “Feature Map / Embeddings”. From this feature-map block, a left branch goes upward into the “Implicit Support-Concepts (S)” strip, and a vertical branch goes upward through a small peach oval labeled z toward the classifier.
+
+3. The large pale-green dashed rounded region on the left is labeled “Differentiable Knowledge Unit (DKU)”. It contains a teal scroll labeled “IF... THEN... Rules (R)”, a purple rounded rectangle labeled “Fuzzy Inference”, and a wide dark-blue rounded strip labeled “Implicit Support-Concepts (S)”. The support-concepts strip contains a sequence of small heat-map images of the child photograph.
+
+4. A dashed horizontal arrow goes from the rules scroll to “Fuzzy Inference”. A solid arrow rises from the implicit-support-concepts strip into the fuzzy-inference block. A solid arrow leaves the right side of “Fuzzy Inference” and points to a green oval labeled z-hat outside the DKU boundary.
+
+5. To the lower right of the DKU, a teal rounded block labeled “Initial Classifier p(yₖ|z)” is connected to the lower z variable and to a teal class-probability list through a dotted horizontal line. The list contains “bottle”, “car”, “person”, “aeroplane (0.13)”, “bottle (0.80)”, “car (0.97)”, “chair (0.28)”, and “Person (0.95)”; the aeroplane and chair rows are outlined in red.
+
+6. The upper z-hat oval points upward into a blue rounded block labeled “σ(z-hat) Sigmoid”. An upward arrow from the sigmoid block reaches a reconstructed photograph of the child sitting in the car. To the right of this upper photograph, a second probability list contains “bottle”, “car”, “person”, “aeroplane (0.00)”, “bottle (0.99)”, “car (1.00)”, “chair (0.04)”, and “Person (1.00)”; aeroplane and chair are again outlined in red. A dotted diagonal teal line links this list to the upper classifier-output area.
