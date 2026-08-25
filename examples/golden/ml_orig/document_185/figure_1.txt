@@ -1,0 +1,19 @@
+1. The figure is a single horizontal pipeline diagram on a white background. A large rounded light-gray panel spans the whole width and contains the main horizontal chain of five nodes; two additional colored blocks sit outside this panel, one above it and one below it.
+
+2. Inside the gray panel, five nodes are aligned horizontally and read from left to right: a white rounded rectangle labeled "User q"; a tall white cylinder labeled "Memory M" drawn as an ellipse-topped shape; a white rounded rectangle labeled "Ret(M, q, k)"; a white rounded rectangle labeled "LLM A"; and a white rounded rectangle labeled "Response" at the far right.
+
+3. A solid black right-pointing arrow goes from the "User q" rectangle into the left side of the "Memory M" cylinder.
+
+4. A solid black right-pointing arrow leaves the right side of the "Memory M" cylinder and points to the "Ret(M, q, k)" rectangle. The small black label "top-k" is written above this arrow.
+
+5. A solid black right-pointing arrow goes from "Ret(M, q, k)" to "LLM A".
+
+6. A solid black right-pointing arrow goes from "LLM A" to "Response". This is the end of the main chain; no arrow leaves "Response".
+
+7. Above the gray panel there is a light-green rounded rectangle labeled "MemSAD π_D". A green dotted arrow points downward from this green block into the top of the "Memory M" cylinder. The green word "filter" is written to the right of this dotted arrow.
+
+8. Below the gray panel there is a light-red rounded rectangle labeled "Adversary S". A red dashed arrow points upward from this red block into the bottom of the "Memory M" cylinder. The red symbol "p_adv" is written to the right of this dashed arrow.
+
+9. The "Memory M" cylinder is therefore the only node that receives three incoming arrows: a solid one from the left, a green dotted one from above, and a red dashed one from below.
+
+10. Three line styles are used and each carries a distinct meaning: solid black lines for the normal data path, a green dotted line for the filtering path, and a red dashed line for the adversarial injection path. Only two nodes are colored: the green "MemSAD π_D" above and the red "Adversary S" below; every node inside the gray panel is white with a thin black border.

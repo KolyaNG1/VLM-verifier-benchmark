@@ -1,0 +1,23 @@
+1. The figure is a single rectangular text panel with a thin black border on a white background. It contains no photographs, no arrows, no axes and no plotted data; it is a formatted algorithm description set in a serif typeface and arranged as one left-aligned column.
+
+2. The first line begins with the bold word "Parameters:" and is followed on the next line by "full set of decision vectors S = {0,1}^d, number of rounds T, unknown distribution P ∈ Δ_{2S}".
+
+3. Below the parameters block, a bold line reads "For all t = 1, 2, ..., T repeat". This line introduces an indented numbered list of four steps.
+
+4. Step 1 reads "The environment draws a set of available actions S_t ~ P and picks a loss vector ℓ_t ∈ [0,1]^d." The formula continues on a second line.
+
+5. Step 2 reads "The set S_t is revealed to the learner."
+
+6. Step 3 reads "Based on its previous observations (and possibly some source of randomness), the learner picks an action V_t ∈ S_t." The sentence wraps onto a second line.
+
+7. Step 4 reads "The learner suffers loss V_t^T ℓ_t and gets some feedback:" and ends with a colon that introduces three further sub-items labeled (a), (b) and (c), indented one level deeper than the numbered steps.
+
+8. Sub-item (a) reads "in the full information setting, the learner observes ℓ_t". The words "full information" are set in italics.
+
+9. Sub-item (b) reads "in the restricted setting, the learner observes ℓ_{t,i} for all i ∈ D_t". The word "restricted" is set in italics.
+
+10. Sub-item (c) reads "in the semi-bandit setting, the learner observes ℓ_{t,i} for all i such that V_{t,i} = 1". The words "semi-bandit" are set in italics.
+
+11. The indentation forms three levels: the parameters block and the repeat line are flush left, the four numbered steps are indented once, and the three lettered sub-items are indented twice under step 4. Bold type is used only for "Parameters:" and for "For all t = 1, 2, ..., T repeat"; italics are used only for the three setting names.
+
+12. Mathematical symbols appear inline throughout the panel, including set notation {0,1}^d, the distribution symbol P, the interval [0,1]^d, the loss vector ℓ_t, the action vector V_t, the transpose notation V_t^T ℓ_t, and index conditions such as V_{t,i} = 1.

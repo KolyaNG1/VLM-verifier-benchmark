@@ -1,0 +1,19 @@
+1. The figure is a wide composite panel divided into four labeled columns by two vertical black dashed lines. Reading from left to right, the column headers printed in bold at the top are "Stimuli", "t-value", "Atten Weights" and, after the second dashed divider, "Attention Weights UMAP".
+
+2. Two bold row labels are printed vertically along the left edge: "Faces" for the upper row and "Places" for the lower row. The whole figure is therefore a two-row by four-column arrangement.
+
+3. In the "Stimuli" column of the "Faces" row, a two-by-two grid of four color photographs of people is shown: upper left, a child in a white shirt holding a ball on green grass; upper right, a man in a dark suit and a woman in a dark dress standing indoors; lower left, two men in formal clothing, one in a white jacket and one in a dark suit with a red tie; lower right, a close-up portrait of a man with gray hair wearing a black bow tie.
+
+4. In the "Stimuli" column of the "Places" row, a two-by-two grid of four color photographs of interiors is shown: upper left, a living room with a sofa and a coffee table; upper right, a bathroom with a mirror and a framed picture; lower left, a hotel bedroom with two beds and warm orange lighting; lower right, a bathroom with a bathtub next to a window.
+
+5. In the "t-value" column, each row contains one pair of flattened brain surface maps, drawn as two irregular gray blobs side by side representing the left and right hemispheres. The background of each map is mottled dark gray and medium gray. Colored activation patches are overlaid in a black-purple-orange-yellow color scale, with the brightest yellow patches concentrated in the lower central part of each hemisphere.
+
+6. In the "Atten Weights" column, each row again contains one pair of flattened brain maps with the same gray background and the same black-purple-orange-yellow overlay. The activation patches occupy broadly similar regions to the "t-value" column but differ in extent and brightness.
+
+7. To the right of the second dashed divider, the "Attention Weights UMAP" column contains a single much larger pair of flattened brain maps that spans the full height of both rows. Its overlay uses a different color scheme, with green, yellow, red and orange patches.
+
+8. On the large UMAP maps, several regions are outlined with thin white contours and annotated with white text labels. On the left hemisphere the visible labels are "RSC" near the top right, "OPA" in the upper middle, "EBA" in the middle left, "FFA-1" below it, and "PPA" at the bottom. On the right hemisphere the visible labels are "RSC" at the top left, "OPA" in the upper middle, "EBA" in the middle right, "FFA-1" and "FFA-2" below it, and "PPA" at the bottom.
+
+9. The two vertical black dashed lines act as separators: the first stands between the "Stimuli" column and the "t-value" column, the second stands between the "Atten Weights" column and the "Attention Weights UMAP" column. Thin black rectangular frames enclose the brain-map cells.
+
+10. No arrows, no legend box with numeric values, and no axis lines are present. Color is used in two distinct ways: the black-purple-orange-yellow scale in the "t-value" and "Atten Weights" columns, and the green-yellow-red scale in the "Attention Weights UMAP" column.

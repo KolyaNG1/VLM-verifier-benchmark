@@ -1,0 +1,19 @@
+1. The figure contains two scatter panels placed side by side inside a rounded cream-colored border that is visible along the top edge. The left panel is cut off by the left edge of the image, so only its right-hand portion is visible; the right panel is complete.
+
+2. The bold title of the left panel is partially cropped and reads "P = 10". The bold title of the right panel reads "P = 100".
+
+3. In the right panel, the vertical axis is labeled "Logit (label=1)" and its tick labels run from 1.5 at the bottom to 4.0 at the top in steps of 0.5. The horizontal axis is labeled "Logit (label=0)" and its tick labels run from 1 to 7 in steps of 1. A light gray grid is drawn behind the data.
+
+4. In the left panel, only the lower and right parts of the axes are visible. The horizontal tick labels that can be read are 4, 5, 6 and 7, and the horizontal axis label is cropped to "(label=0)". The vertical axis and its tick labels are outside the visible area.
+
+5. Each data series is drawn as a short trajectory: a filled square marks the start, a chain of diamond markers follows, and a faded translucent trail of round markers of the same color runs alongside the solid line.
+
+6. The right panel contains five labeled trajectories. A blue trajectory sits in the upper left region around horizontal value 1.8 to 2.2 and vertical value 3.1, labeled "Ex.2 (label=1)" with the text placed above it. A purple trajectory runs slightly upward from about 1.8 to 2.9 at vertical value 2.7 to 2.85, labeled "Ex.4 (label=1)" with the text placed below it.
+
+7. In the right half of the right panel, a red trajectory starts at about horizontal 3.85 and vertical 2.8 and descends to the right, labeled "Ex.1 (label=0)" with the text above it. A green trajectory continues downward and to the right from about 4.6 and 2.47, labeled "Ex.3 (label=0)" with the text below it. A black trajectory continues to about 5.8 and 2.05, labeled "Ex.5 (label=0)" with the text to its upper right.
+
+8. The left panel shows the same color scheme with a red trajectory, a green trajectory and a black trajectory descending from upper left to lower right. The labels that remain readable are "Ex.1 (label=0)" above the red trajectory, "Ex.5 (label=0)" to the right, and a partially cropped "x.3 (label=0)" at the lower left, which corresponds to "Ex.3 (label=0)".
+
+9. A thin gray dashed diagonal line runs from the lower left toward the upper right in both panels, crossing the plotting area. In the right panel it passes near horizontal 1.2 at the bottom and reaches the upper right corner region.
+
+10. The two label=1 series, blue and purple, lie to the left of the gray dashed diagonal, while the three label=0 series, red, green and black, lie to the right of it. All five trajectories in the right panel move from upper left to lower right, except the blue and purple ones, which stay nearly horizontal.

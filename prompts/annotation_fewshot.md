@@ -2,6 +2,16 @@
 few_shot_examples:
   - image: nikolay_ai_360_annotation/examples/dku_reference.png
     annotation: nikolay_ai_360_annotation/examples/dku_reference.txt
+  - image: nikolay_ai_360_annotation/examples/golden/ml_orig/document_185/figure_1.png
+    annotation: nikolay_ai_360_annotation/examples/golden/ml_orig/document_185/figure_1.txt
+  - image: nikolay_ai_360_annotation/examples/golden/ml_orig/document_86/figure_1.png
+    annotation: nikolay_ai_360_annotation/examples/golden/ml_orig/document_86/figure_1.txt
+  - image: nikolay_ai_360_annotation/examples/golden/ml_orig/document_58/figure_6.png
+    annotation: nikolay_ai_360_annotation/examples/golden/ml_orig/document_58/figure_6.txt
+  - image: nikolay_ai_360_annotation/examples/golden/ml_orig/document_171/figure_6.png
+    annotation: nikolay_ai_360_annotation/examples/golden/ml_orig/document_171/figure_6.txt
+  - image: nikolay_ai_360_annotation/examples/golden/ml_orig/document_191/figure_1.png
+    annotation: nikolay_ai_360_annotation/examples/golden/ml_orig/document_191/figure_1.txt
 ---
 
 # Scientific-figure annotation task

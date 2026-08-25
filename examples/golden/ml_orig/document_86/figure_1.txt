@@ -1,0 +1,21 @@
+1. The figure is a single horizontal flowchart on a white background. It reads from left to right and contains six labeled shapes connected by gray arrows, plus three small gray condition labels placed directly on the connecting edges.
+
+2. At the far left, a blue-outlined rectangle is labeled "Input Image x". A gray right-pointing arrow goes from this rectangle to a pink-outlined rectangle labeled "Perturbation τ(x) (rotation / translation / brightness / gaussian-noise / jpeg compression)". The parenthetical list is written on three lines inside the pink rectangle.
+
+3. A gray right-pointing arrow goes from the pink "Perturbation τ(x)" rectangle into the left vertex of a large orange-outlined diamond labeled "Prediction Invariance Check f(x) vs f(τ(x))" written on two lines. This diamond is the only decision shape in the figure.
+
+4. Three separate gray arrows leave the right side of the diamond and fan out to three different destinations: one goes upward and to the right, one goes horizontally to the right, and one goes downward and to the right.
+
+5. The upper branch carries a small gray-highlighted label "f(x) = f(τ(x))" and points to a green-outlined rectangle labeled "Φ(f, x)".
+
+6. The middle branch carries a small gray-highlighted label "f(x) = f(τ(x))" and points to a second green-outlined rectangle labeled "Φ(f, τ(x))", which sits below the first green rectangle.
+
+7. The lower branch carries a small gray-highlighted label "f(x) ≠ f(τ(x))" and points to a gray dashed rectangle labeled "Excluded (report rate %)" written on two lines. This dashed rectangle is a terminal node: no arrow leaves it.
+
+8. Two curved gray arrows converge into a single purple-outlined rectangle on the right. The upper curved arrow comes from "Φ(f, x)" and enters from above; the lower curved arrow comes from "Φ(f, τ(x))" and enters from below. The purple rectangle is labeled "SSIM Spearman Jaccard" written on three separate lines.
+
+9. A gray right-pointing arrow goes from the purple "SSIM Spearman Jaccard" rectangle to a blue-outlined rectangle at the far right labeled "FASS Score". This is the final output of the flowchart.
+
+10. Color coding separates the stages: the input rectangle and the final output rectangle are blue, the perturbation block is pink, the decision diamond is orange with a pale orange fill, the two metric blocks are green, the aggregation block is purple, and the discarded branch is gray with a dashed border.
+
+11. Spatially, the diagram is one long row: "Input Image x", "Perturbation τ(x)" and the diamond are aligned at mid-height, the two green blocks are stacked in the upper right area, the dashed "Excluded" block sits at the lower right, and the purple and blue blocks close the chain at the far right.
